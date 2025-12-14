@@ -111,9 +111,6 @@ function App() {
       <p className="counter">
         Question {currentIndex + 1} of {questionsData.length}
       </p>
-      <p className="hint">
-        Use ⬅️ ➡️ to navigate, ⬆️ ⬇️ to flip
-      </p>
     </div>
   );
 }
