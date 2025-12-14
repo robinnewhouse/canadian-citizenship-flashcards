@@ -1,18 +1,17 @@
-import { useState } from 'react';
 import './Flashcard.css';
 
 interface FlashcardProps {
   question: string;
   answer: string;
+  isFlipped: boolean;
+  onFlip: () => void;
 }
 
-export function Flashcard({ question, answer }: FlashcardProps) {
-  const [isFlipped, setIsFlipped] = useState(false);
-
+export function Flashcard({ question, answer, isFlipped, onFlip }: FlashcardProps) {
   return (
     <div 
       className={`flashcard ${isFlipped ? 'flipped' : ''}`} 
-      onClick={() => setIsFlipped(!isFlipped)}
+      onClick={onFlip}
     >
       <div className="flashcard-inner">
         <div className="flashcard-front">
@@ -25,4 +24,3 @@ export function Flashcard({ question, answer }: FlashcardProps) {
     </div>
   );
 }
-
