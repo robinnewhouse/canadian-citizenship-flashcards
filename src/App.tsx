@@ -9,30 +9,25 @@ function App() {
   const [skipTransition, setSkipTransition] = useState(false);
   const currentQuestion = questionsData[currentIndex];
 
-  const navigateTo = (newIndex: number) => {
+  const navigate = (updater: (prev: number) => number) => {
     setSkipTransition(true);
     setIsFlipped(false);
-    setCurrentIndex(newIndex);
-    // Re-enable transition after the DOM has updated with the unflipped state
+    setCurrentIndex(updater);
     requestAnimationFrame(() => {
       setSkipTransition(false);
     });
   };
 
   const nextCard = () => {
-    navigateTo(
-      currentIndex === questionsData.length - 1 ? 0 : currentIndex + 1
-    );
+    navigate((prev) => prev === questionsData.length - 1 ? 0 : prev + 1);
   };
 
   const prevCard = () => {
-    navigateTo(
-      currentIndex === 0 ? questionsData.length - 1 : currentIndex - 1
-    );
+    navigate((prev) => prev === 0 ? questionsData.length - 1 : prev - 1);
   };
 
   const randomCard = () => {
-    navigateTo(Math.floor(Math.random() * questionsData.length));
+    navigate(() => Math.floor(Math.random() * questionsData.length));
   };
 
   const handleFlip = () => {
