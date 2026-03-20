@@ -17,6 +17,10 @@
   border-radius: 10px;
 }
 
+.flashcard-inner.no-transition {
+  transition: none;
+}
+
 .flashcard.flipped .flashcard-inner {
   transform: rotateY(180deg);
 }

@@ -6,26 +6,33 @@ import questionsData from './questions.json';
 function App() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isFlipped, setIsFlipped] = useState(false);
+  const [skipTransition, setSkipTransition] = useState(false);
   const currentQuestion = questionsData[currentIndex];
 
-  const nextCard = () => {
+  const navigateTo = (newIndex: number) => {
+    setSkipTransition(true);
     setIsFlipped(false);
-    setCurrentIndex((prevIndex) => 
-      prevIndex === questionsData.length - 1 ? 0 : prevIndex + 1
+    setCurrentIndex(newIndex);
+    // Re-enable transition after the DOM has updated with the unflipped state
+    requestAnimationFrame(() => {
+      setSkipTransition(false);
+    });
+  };
+
+  const nextCard = () => {
+    navigateTo(
+      currentIndex === questionsData.length - 1 ? 0 : currentIndex + 1
     );
   };
 
   const prevCard = () => {
-    setIsFlipped(false);
-    setCurrentIndex((prevIndex) => 
-      prevIndex === 0 ? questionsData.length - 1 : prevIndex - 1
+    navigateTo(
+      currentIndex === 0 ? questionsData.length - 1 : currentIndex - 1
     );
   };
 
   const randomCard = () => {
-    setIsFlipped(false);
-    const randomIndex = Math.floor(Math.random() * questionsData.length);
-    setCurrentIndex(randomIndex);
+    navigateTo(Math.floor(Math.random() * questionsData.length));
   };
 
   const handleFlip = () => {
@@ -96,11 +103,12 @@ function App() {
     <div className="app-container">
       <h1>Canadian Citizenship Test</h1>
       <div className="card-container">
-        <Flashcard 
-          question={currentQuestion.question} 
+        <Flashcard
+          question={currentQuestion.question}
           answer={currentQuestion.answer}
           isFlipped={isFlipped}
           onFlip={handleFlip}
+          skipTransition={skipTransition}
         />
       </div>
       <div className="controls">
@@ -110,6 +118,9 @@ function App() {
       </div>
       <p className="counter">
         Question {currentIndex + 1} of {questionsData.length}
+      </p>
+      <p className="keyboard-hint">
+        Use arrow keys: Left/Right to navigate, Up/Down to flip
       </p>
     </div>
   );

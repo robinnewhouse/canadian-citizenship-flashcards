@@ -49,6 +49,12 @@ button:focus-visible {
   color: #888;
 }
 
+.keyboard-hint {
+  color: #aaa;
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+}
+
 @media (prefers-color-scheme: dark) {
   button {
     background-color: #1a1a1a;
